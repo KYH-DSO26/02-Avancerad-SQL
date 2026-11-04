@@ -78,3 +78,12 @@ where s.Environment IN ('Production', 'Staging');
 create nonclustered index IX_Servers_ManagedByUserId
 ON Servers(ManagedByUserId);
 
+-- Uppgift 6
+-- Detektivarbete i Exekveringsplanen – Aktivera "Actual Execution Plan" i SSMS. 
+-- Kör en sökning på en specifik IP-adress: 
+-- SELECT * FROM Servers WHERE IpAddress = '10.0.0.15';. 
+-- Notera om SQL Server gör en Table Scan eller Index Scan/Seek.
+SELECT IpAddress FROM Servers WHERE IpAddress = '10.0.1.20';
+
+create nonclustered index ix_servers_ipaddress
+on servers(IpAddress);
