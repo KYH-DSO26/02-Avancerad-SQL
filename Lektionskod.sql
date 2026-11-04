@@ -36,3 +36,45 @@ RIGHT join Users u on s.ManagedByUserId = u.Id;
 select s.servername, s.ipaddress, u.username
 from Servers s
 FULL OUTER join Users u on s.ManagedByUserId = u.Id;
+
+-- Uppgift 5
+-- Filtrera Aliasing – Skriv om frågan från Uppgift 1 med korta, 
+-- tydliga tabell-alias (s för Servers, u för Users) 
+-- och filtrera ut så att endast servrar i Environment = 'Production' visas.
+select s.servername, s.ipaddress, u.username
+from Servers s
+join Users u on s.ManagedByUserId = u.Id
+where s.Environment = 'Production';
+
+--Uppgift 5
+-- Det fysiska låset. Skriv ett DDL-skript som lägger till en FOREIGN KEY-constraint 
+-- på kolumnen ManagedByUserId i tabellen Servers så att den pekar på Id i Users. 
+-- Sätt regeln till ON DELETE SET NULL.
+alter table servers
+add constraint FK_Servers_Users_ManagedByUserId
+FOREIGN KEY (ManagedByUserId) REFERENCES Users(Id)
+ON DELETE SET NULL;
+
+
+-- Uppgift 6
+-- Miljökontrollen. Skriv en query som via en INNER JOIN hämtar användarnamn och servernamn, 
+-- men filtrera resultatet så att du endast visar servrar som tillhör 
+-- miljöerna 'Production' eller 'Staging'.
+
+select u.username, s.servername
+from servers s
+inner join users u on s.ManagedByUserId = u.Id
+where s.Environment = 'Production' or s.Environment = 'Staging';
+
+select u.username, s.servername
+from servers s
+inner join users u on s.ManagedByUserId = u.Id
+where s.Environment IN ('Production', 'Staging');
+
+-- Uppgift 7
+-- Snabba spår i loggen. Skapa ett NONCLUSTERED INDEX på tabellen Servers för
+-- kolumnen ManagedByUserId. Skriv en kort kommentar om varför detta är viktigt vid
+-- Foreign Key-valideringar.
+create nonclustered index IX_Servers_ManagedByUserId
+ON Servers(ManagedByUserId);
+
