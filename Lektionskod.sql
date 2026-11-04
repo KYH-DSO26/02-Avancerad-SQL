@@ -21,3 +21,18 @@ select s.servername, s.ipaddress, u.username
 from Servers s
 LEFT join Users u on s.ManagedByUserId = u.Id;
 
+-- Uppgift 3
+-- De Inaktiva Teknikerna (RIGHT JOIN) – Lista alla användare i systemet och 
+-- mappa dem mot de servrar de hanterar. 
+-- Användare som inte hanterar någon server ska fortfarande synas i listan.
+select s.servername, s.ipaddress, u.username
+from Servers s
+RIGHT join Users u on s.ManagedByUserId = u.Id;
+
+-- Uppgift 4
+-- Den Kompletta Kartläggningen (FULL JOIN) – 
+-- Kombinera tabellerna helt så att absolut alla användare och absolut alla servrar visas, 
+-- oavsett om de har en koppling till varandra eller inte.
+select s.servername, s.ipaddress, u.username
+from Servers s
+FULL OUTER join Users u on s.ManagedByUserId = u.Id;
